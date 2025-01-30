@@ -1,10 +1,11 @@
 import './App.css'
 import { useState, useEffect} from 'react'
 import React from 'react'
+import { sleep } from 'sleep-ts'
 
 function App() {
   const [arraySize, setArraySize] = useState<number>(10);
-  const [sortingSpeed, setSortingSpeed] = useState<number>(1);
+  const [sortingSpeed, setSortingSpeed] = useState<number>(500);
   const [list, setList] = useState<number[]>([1,2,3,4,5]);
   //Graph represented as an encoded string 
   const [graph, setGraph] = useState<string | undefined>(undefined);
@@ -69,8 +70,9 @@ function App() {
     console.log(`Randomly generated array: ${newList}`);
   }
 
+
   //most basic and intuitive sorting, O(n^2)
-  const selectionSort = () => {
+  const selectionSort = async () => {
     const sortedList: number[] = [...list];
     for(let i = 0; i < arraySize; i++){
       let currentMinimum: number = sortedList[i];
@@ -79,6 +81,10 @@ function App() {
           currentMinimum = sortedList[j];
           sortedList[j] = sortedList[i];
           sortedList[i] = currentMinimum;
+          setList(sortedList);
+          // 1000 - 500
+          const speed: number = Math.abs(1000 - sortingSpeed);
+          await sleep(speed);
         }
       }
     }
@@ -92,11 +98,8 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (list.length !== 5) {
-      console.log(`Current list variable: ${list}`);
       sendArrayToBackend(list);
       fetchGraph();
-    }
   }, [list]);
 
   return (
@@ -106,12 +109,12 @@ function App() {
         <div id="UI">
           <label htmlFor="array-size"> Array Size: </label>
           <input type="range" name="array-size" min="5" max="30" step="1" defaultValue={arraySize} onChange={handleArraySize}/>
+          <label htmlFor="array-size"> {arraySize} </label>
           <label htmlFor="sorting-speed"> Sorting Speed</label> 
-          <input type="range" name="sorting-speed" min=".25" max="2" step=".25" defaultValue={sortingSpeed} onChange={handleSortingSpeed}/> 
+          <input type="range" name="sorting-speed" min="250" max="1000" step="250" defaultValue={sortingSpeed} onChange={handleSortingSpeed}/> 
+          <label htmlFor="sorting-speed"> {sortingSpeed/1000}</label> 
           <button onClick={randomizeList}> Generate List </button>
           <button onClick={selectionSort}> Sort List </button>
-          <button onClick={fetchGraph}> Fetch Data</button>
-          <button onClick={() => sendArrayToBackend(list)}> Send Data </button>
           <select/>
         </div>
         <img src={graph} alt="Graph Visualization"/>
