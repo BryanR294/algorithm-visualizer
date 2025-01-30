@@ -1,27 +1,34 @@
 import './App.css'
-import { useState} from 'react'
+import { useState, useEffect} from 'react'
 import React from 'react'
-import ReactDOM from 'react-dom/client'
 
 function App() {
   const [arraySize, setArraySize] = useState<number>(10);
   const [sortingSpeed, setSortingSpeed] = useState<number>(1);
-  const [list, setList] = useState<number[]>([1,2,3,4,5]); 
+  const [list, setList] = useState<number[]>([1,2,3,4,5]);
+  //Graph represented as an encoded string 
+  const [graph, setGraph] = useState<string | undefined>(undefined);
   
   //Python backend communication
-  const fetchData = async () => {
+  const fetchGraph = async () => {
     try {
       const response = await fetch("http://127.0.0.1:5000/api/data");
-      const data = await response.json();
-      console.log(data);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const data = await response.json(); // Parse JSON from the response
+      setGraph(`data:image/png;base64,${data.image}`)
+      console.log("Graph fetched successfully")
+      
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
-  
+
   const sendArrayToBackend = async (array: number[]) => {
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/process", {
+      const response = await fetch("http://127.0.0.1:5000/api/data", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -59,7 +66,7 @@ function App() {
       newList[i] = Math.floor(Math.random() * 101);
     }
     setList(newList);
-    console.log(newList);
+    console.log(`Randomly generated array: ${newList}`);
   }
 
   //most basic and intuitive sorting, O(n^2)
@@ -80,22 +87,34 @@ function App() {
     setList(sortedList);
   }
 
+  useEffect(() => {
+    randomizeList();
+  }, []);
+
+  useEffect(() => {
+    if (list.length !== 5) {
+      console.log(`Current list variable: ${list}`);
+      sendArrayToBackend(list);
+      fetchGraph();
+    }
+  }, [list]);
 
   return (
     <>
       <div>
         <title> Algorithm Visualizer</title>
-        <div className="UI">
+        <div id="UI">
           <label htmlFor="array-size"> Array Size: </label>
           <input type="range" name="array-size" min="5" max="20" step="1" defaultValue={arraySize} onChange={handleArraySize}/>
           <label htmlFor="sorting-speed"> Sorting Speed</label> 
           <input type="range" name="sorting-speed" min=".25" max="2" step=".25" defaultValue={sortingSpeed} onChange={handleSortingSpeed}/> 
           <button onClick={randomizeList}> Generate List </button>
           <button onClick={selectionSort}> Sort List </button>
-          <button onClick={fetchData}> Fetch Data</button>
-          <button onClick={ () => sendArrayToBackend(list)}> Send Data </button>
+          <button onClick={fetchGraph}> Fetch Data</button>
+          <button onClick={() => sendArrayToBackend(list)}> Send Data </button>
           <select/>
         </div>
+        <img src={graph} alt="Graph Visualization"/>
       </div>
 
     </>
