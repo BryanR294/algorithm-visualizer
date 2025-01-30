@@ -2,37 +2,52 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import seaborn as sns
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import base64
 import io
 
+# Follow REST principles 
+# GET, POST, PUT, DELETE
+# example: GET /tasks/<id>
+
+# Flask and CORS set-up
+array = [1,2,3,4,5]
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})  # This enables CORS for all routes (make sure to configure it for production!)
 
 @app.route('/api/data', methods=['GET'])
-def get_data():
-    data = {'message': 'Hello from Python API!'}
-    return jsonify(data)
-
-@app.route('/api/process', methods=['POST'])
-def visualize_array():
-    print('endpoint accessed')
-    array = request.json
-    numpy_array = np.array([array]) 
+def get_array():
+    global array
+    np_array = np.array(array)
     
-    plt.figure()
-    # sns.histplot(numpy_array, kde=True)
+    
+    fig, ax = plt.subplots()
+    ax.bar(range(len(np_array)), np_array)
+    ax.set_xlabel('Index')
+    ax.set_ylabel('Value')
+    
+    # Encodes image into a JSON compatible format
+    buf = io.BytesIO()
+    fig.savefig(buf,format="png")
+    buf.seek(0)
+    encoded_image = base64.b64encode(buf.read()).decode('utf-8')
+    plt.close(fig)
+    
+    print("GET request received, sending graph data")
+    return jsonify({"image": encoded_image})
 
-    # # Save the plot to an in-memory buffer
-    # buffer = io.BytesIO()
-    # plt.savefig(buffer, format='png')
-    # buffer.seek(0)
-    # plt.close()
-
-    # # Return the plot as a response
-    # return send_file(buffer, mimetype='image/png')
-    data = {'message': '/process endpoint reached'}
-    return jsonify(data)
+@app.route('/api/data', methods=['POST'])
+def update_array():
+    global array
+    data = request.json  # Parse JSON payload from the request
+    if 'array' in data:
+        array = data['array']
+        return jsonify({"message": "Array updated successfully!", "array": array}), 200
+    else:
+        return jsonify({"error": "Invalid input: 'array' not provided"}), 400
 
 if __name__ == '__main__':
     app.run(debug=True)
