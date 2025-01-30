@@ -105,7 +105,7 @@ function App() {
         <title> Algorithm Visualizer</title>
         <div id="UI">
           <label htmlFor="array-size"> Array Size: </label>
-          <input type="range" name="array-size" min="5" max="20" step="1" defaultValue={arraySize} onChange={handleArraySize}/>
+          <input type="range" name="array-size" min="5" max="30" step="1" defaultValue={arraySize} onChange={handleArraySize}/>
           <label htmlFor="sorting-speed"> Sorting Speed</label> 
           <input type="range" name="sorting-speed" min=".25" max="2" step=".25" defaultValue={sortingSpeed} onChange={handleSortingSpeed}/> 
           <button onClick={randomizeList}> Generate List </button>
