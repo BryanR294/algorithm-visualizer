@@ -85,7 +85,8 @@ function App() {
           sortedList[i] = currentMinimum;
           setList(sortedList);
           // 1000 - 500
-          const speed: number = Math.abs(1000 - sortingSpeed);
+          let speed: number = Math.abs(1000 - sortingSpeed);
+          if(speed == 0) speed = 50;
           await sleep(speed);
         }
       }
