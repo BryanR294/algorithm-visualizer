@@ -4,12 +4,13 @@ import React from 'react'
 import { sleep } from 'sleep-ts'
 
 function App() {
-  const [arraySize, setArraySize] = useState<number>(10);
+  const [arraySize, setArraySize] = useState<number>(25);
   const [sortingSpeed, setSortingSpeed] = useState<number>(500);
   const [list, setList] = useState<number[]>([1,2,3,4,5]);
   //Graph represented as an encoded string 
   const [graph, setGraph] = useState<string | undefined>(undefined);
-  
+  const [isSorting, setIsSorting] = useState<boolean>(false);
+
   //Python backend communication
   const fetchGraph = async () => {
     try {
@@ -58,7 +59,7 @@ function App() {
   const handleSortingSpeed = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSortingSpeed(Number(event.target.value));
   }
-  
+
   //creates random list
   const randomizeList = () => {
     const newList: number[] = [];
@@ -73,6 +74,7 @@ function App() {
 
   //most basic and intuitive sorting, O(n^2)
   const selectionSort = async () => {
+    setIsSorting(true);
     const sortedList: number[] = [...list];
     for(let i = 0; i < arraySize; i++){
       let currentMinimum: number = sortedList[i];
@@ -92,10 +94,27 @@ function App() {
     console.log(sortedList);
     setList(sortedList);
   }
-
+  
   useEffect(() => {
     randomizeList();
   }, []);
+
+  //updates UI if the algorithm is sorting
+  useEffect(() => {
+    const uiElements: HTMLCollectionOf<Element> = document.getElementsByClassName("hide-while-sorting");
+    const elStop: HTMLElement | null = document.getElementById("stop-sort");
+
+    if(isSorting === true){
+      for(const item of uiElements){
+        (item as HTMLElement).style.display = "none";
+      }
+      elStop.style.display = "inline";
+    }else{
+      for(const item of uiElements){
+        (item as HTMLElement).style.display = "inline";
+      } 
+    }
+  }, [isSorting]);
 
   useEffect(() => {
       sendArrayToBackend(list);
@@ -106,20 +125,21 @@ function App() {
     <>
       <div>
         <title> Algorithm Visualizer</title>
-        <div id="UI">
+        <div>
           <label htmlFor="array-size"> Array Size: </label>
-          <input type="range" name="array-size" min="5" max="30" step="1" defaultValue={arraySize} onChange={handleArraySize}/>
+          <input className="hide-while-sorting" type="range" name="array-size" min="5" max="50" step="1" defaultValue={arraySize} onChange={handleArraySize}/>
           <label htmlFor="array-size"> {arraySize} </label>
           <label htmlFor="sorting-speed"> Sorting Speed</label> 
-          <input type="range" name="sorting-speed" min="250" max="1000" step="250" defaultValue={sortingSpeed} onChange={handleSortingSpeed}/> 
+          <input className="hide-while-sorting" type="range" name="sorting-speed" min="250" max="1000" step="250" defaultValue={sortingSpeed} onChange={handleSortingSpeed}/> 
           <label htmlFor="sorting-speed"> {sortingSpeed/1000}</label> 
-          <button onClick={randomizeList}> Generate List </button>
-          <button onClick={selectionSort}> Sort List </button>
-          <select/>
         </div>
         <img src={graph} alt="Graph Visualization"/>
+        <div>
+          <button className="hide-while-sorting" onClick={randomizeList}> Generate List </button>
+          <button className="hide-while-sorting" onClick={selectionSort}> Selection Sort </button>
+          <button id="stop-sort" onClick={() => setIsSorting(false)}> Stop Sort</button>
+        </div>
       </div>
-
     </>
   )
 }
