@@ -11,6 +11,28 @@ function App() {
   const [graph, setGraph] = useState<string | undefined>(undefined);
   const [isSorting, setIsSorting] = useState<boolean>(false);
 
+   //creates random list
+   const randomizeList = () => {
+    const newList: number[] = [];
+    for(let i = 0; i < arraySize; i++){
+      //random distribution is [0,101), floor makes it [0,100] 
+      newList[i] = Math.floor(Math.random() * 101);
+    }
+    setList(newList);
+    // console.log(`Randomly generated array: ${newList}`);
+  }
+
+  //Updates array size, and randomizes new array for that size
+  const handleArraySize = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setArraySize(Number(event.target.value));
+    randomizeList();
+  }
+  
+  //changes speed at which program sorts array
+  const handleSortingSpeed = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSortingSpeed(Number(event.target.value));
+  }
+
   //Python backend communication
   const fetchGraph = async () => {
     try {
@@ -29,13 +51,14 @@ function App() {
   };
 
   const sendArrayToBackend = async (array: number[]) => {
+    console.log("sending array to backend...")
     try {
       const response = await fetch("http://127.0.0.1:5000/api/data", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ array }), // Example payload
+        body: JSON.stringify({ array }), 
       });
       
       const result = await response.json();
@@ -45,32 +68,6 @@ function App() {
     }
   };
   
-
-
-
-  
-  //Updates array size, and randomizes new array for that size
-  const handleArraySize = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setArraySize(Number(event.target.value));
-    randomizeList();
-  }
-  
-  //changes speed at which program sorts array
-  const handleSortingSpeed = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSortingSpeed(Number(event.target.value));
-  }
-
-  //creates random list
-  const randomizeList = () => {
-    const newList: number[] = [];
-    for(let i = 0; i < arraySize; i++){
-      //random distribution is [0,101), floor makes it [0,100] 
-      newList[i] = Math.floor(Math.random() * 101);
-    }
-    setList(newList);
-    console.log(`Randomly generated array: ${newList}`);
-  }
-
 
   //most basic and intuitive sorting, O(n^2)
   const selectionSort = async () => {
@@ -96,7 +93,9 @@ function App() {
     setList(sortedList);
   }
   
+  //Ensures 
   useEffect(() => {
+    console.log("Hello World!");
     randomizeList();
   }, []);
 
@@ -118,8 +117,13 @@ function App() {
   }, [isSorting]);
 
   useEffect(() => {
-      sendArrayToBackend(list);
-      fetchGraph();
+    const communicateWithBackend = async () => {
+      console.log("Detected list change, sending to backend...");
+      await sendArrayToBackend(list);
+      console.log("Fetching data visual from backend...");
+      await fetchGraph();
+    }
+    communicateWithBackend();
   }, [list]);
 
   return (
