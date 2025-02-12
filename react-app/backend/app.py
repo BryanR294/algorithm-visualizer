@@ -7,6 +7,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import base64
 import io
+import logging
 
 # Follow REST principles 
 # GET, POST, PUT, DELETE
@@ -14,6 +15,8 @@ import io
 
 # Flask and CORS set-up
 array = [1,2,3,4,5]
+
+logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})  # This enables CORS for all routes (make sure to configure it for production!)
