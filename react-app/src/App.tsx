@@ -22,6 +22,13 @@ function App() {
     // console.log(`Randomly generated array: ${newList}`);
   }
 
+  //forces program to wait for backend
+  const communicateWithBackend = async () => {
+    await sendArrayToBackend(list);
+    console.log("Fetching data visual from backend...");
+    await fetchGraph();
+  }
+
   //Updates array size, and randomizes new array for that size
   const handleArraySize = (event: React.ChangeEvent<HTMLInputElement>) => {
     setArraySize(Number(event.target.value));
@@ -73,33 +80,35 @@ function App() {
   const selectionSort = async () => {
     setIsSorting(true);
     const sortedList: number[] = [...list];
-    for(let i = 0; i < arraySize; i++){
+    let n: number = 0;
+
+    for(let i = 0; i < arraySize; i++){  
       let currentMinimum: number = sortedList[i];
       for(let j = i+1; j < arraySize; j++){
         if(currentMinimum > sortedList[j]){
           currentMinimum = sortedList[j];
           sortedList[j] = sortedList[i];
           sortedList[i] = currentMinimum;
-          setList(sortedList);
-          // 1000 - 500
-          let speed: number = Math.abs(1000 - sortingSpeed);
-          if(speed == 0) speed = 50;
+          console.log("updating list...");
+          setList([...sortedList]);
+          const speed: number = Math.abs(1000 - sortingSpeed);
           await sleep(speed);
         }
       }
+      n += 1;
+      console.log(n);
     }
-
+    console.log("Done sorting");
     console.log(sortedList);
     setList(sortedList);
   }
   
-  //Ensures 
+  //Randomizes list on initial render
   useEffect(() => {
-    console.log("Hello World!");
     randomizeList();
   }, []);
 
-  //updates UI if the algorithm is sorting
+  //hides or reveals UI when algorithm is sorting
   useEffect(() => {
     const uiElements: HTMLCollectionOf<Element> = document.getElementsByClassName("hide-while-sorting");
     const elStop: HTMLElement | null = document.getElementById("stop-sort");
@@ -117,12 +126,7 @@ function App() {
   }, [isSorting]);
 
   useEffect(() => {
-    const communicateWithBackend = async () => {
-      console.log("Detected list change, sending to backend...");
-      await sendArrayToBackend(list);
-      console.log("Fetching data visual from backend...");
-      await fetchGraph();
-    }
+    console.log("Detected list change");
     communicateWithBackend();
   }, [list]);
 
