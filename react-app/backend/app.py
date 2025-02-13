@@ -3,12 +3,12 @@ from flask_cors import CORS
 import seaborn as sns
 import numpy as np
 import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import base64
 import io
 import logging
 
+matplotlib.use('Agg')
 # Follow REST principles 
 # GET, POST, PUT, DELETE
 # example: GET /tasks/<id>
@@ -39,7 +39,7 @@ def get_array():
     encoded_image = base64.b64encode(buf.read()).decode('utf-8')
     plt.close(fig)
     
-    print("GET request received, sending graph data")
+    logging.info("GET request received, sending graph data")
     return jsonify({"image": encoded_image})
 
 @app.route('/api/data', methods=['POST'])
@@ -48,6 +48,7 @@ def update_array():
     data = request.json  # Parse JSON payload from the request
     if 'array' in data:
         array = data['array']
+        logging.debug(f"Current backend array: {array}")
         return jsonify({"message": "Array updated successfully!", "array": array}), 200
     else:
         return jsonify({"error": "Invalid input: 'array' not provided"}), 400
