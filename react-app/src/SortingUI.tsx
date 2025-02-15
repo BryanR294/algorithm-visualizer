@@ -1,14 +1,15 @@
-import { useState, useEffect} from 'react'
+import { useState, useEffect, useRef} from 'react'
 import React from 'react'
 import { sleep } from 'sleep-ts'
 
 const SortingUI = () => {
     const [arraySize, setArraySize] = useState<number>(25);
     const [sortingSpeed, setSortingSpeed] = useState<number>(500);
+    //Isn't actually represented on screen, worth replacing with useRef
     const [list, setList] = useState<number[]>([1,2,3,4,5]);
     //Graph represented as an encoded string 
     const [graph, setGraph] = useState<string | undefined>(undefined);
-    const [isSorting, setIsSorting] = useState<boolean>(false);
+    const isSortingRef = useRef<boolean>(false);
   
      //creates random list
      const randomizeList = () => {
@@ -77,27 +78,32 @@ const SortingUI = () => {
   
     //most basic and intuitive sorting, O(n^2)
     const selectionSort = async () => {
-        setIsSorting(true);
-        console.log("SORTING");
-        const sortedList: number[] = [...list];
-        for(let i = 0; i < arraySize; i++){  
-            let currentMinimum: number = sortedList[i];
-            for(let j = i+1; j < arraySize; j++){
-                if(currentMinimum > sortedList[j]){
-                    currentMinimum = sortedList[j];
-                    sortedList[j] = sortedList[i];
-                    sortedList[i] = currentMinimum;
-                    console.log("updating list...");
-                    setList([...sortedList]);
-                    const speed: number = Math.abs(1000 - sortingSpeed);
-                    await sleep(speed);
-                }
-            }
+      isSortingRef.current = true;
+  
+      console.log("SORTING");
+      const sortedList: number[] = [...list];
+      for(let i = 0; i < arraySize; i++){  
+        if(isSortingRef.current != true){
+          console.log("Sort terminated early");
+          return
+        };
+        let currentMinimum: number = sortedList[i];
+        for(let j = i+1; j < arraySize; j++){
+          if(currentMinimum > sortedList[j]){
+            currentMinimum = sortedList[j];
+            sortedList[j] = sortedList[i];
+            sortedList[i] = currentMinimum;
+            console.log("updating list...");
+            setList([...sortedList]);
+            const speed: number = Math.abs(1000 - sortingSpeed);
+            await sleep(speed);
+          }
         }
-        setIsSorting(false);
-        console.log("Done sorting");
-        console.log(sortedList);
-        setList(sortedList);
+      }
+      console.log("Done sorting");
+      console.log(sortedList);
+      setList(sortedList);
+      isSortingRef.current = false;
     }
     
     //Randomizes list on initial render
@@ -110,7 +116,7 @@ const SortingUI = () => {
       const uiElements: HTMLCollectionOf<Element> = document.getElementsByClassName("hide-while-sorting");
       const elStop: HTMLElement | null = document.getElementById("stop-sort");
   
-      if(isSorting === true){
+      if(isSortingRef.current === true){
         for(const item of uiElements){
           (item as HTMLElement).style.display = "none";
         }
@@ -121,7 +127,7 @@ const SortingUI = () => {
         } 
         elStop.style.display = "none";
       }
-    }, [isSorting]);
+    }, [isSortingRef.current]);
   
     useEffect(() => {
       console.log("Detected list change");
@@ -144,7 +150,7 @@ const SortingUI = () => {
           <div>
             <button className="hide-while-sorting" onClick={randomizeList}> Generate List </button>
             <button className="hide-while-sorting" onClick={selectionSort}> Selection Sort </button>
-            <button id="stop-sort" onClick={() => setIsSorting(false)}> Stop Sort</button>
+            <button id="stop-sort" onClick={() => isSortingRef.current = false}> Stop Sort</button>
           </div>
         </div>
       </>
