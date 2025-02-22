@@ -1,0 +1,15 @@
+.wrapper{
+    background: lightgray;
+    width: 25%; 
+    height: 100%;
+    display: flex;
+    
+
+}
+ul{
+    display: inline;
+}
+
+button#reveal-buttons{
+    display: inline;
+}

@@ -1,6 +1,8 @@
+import React from 'react'
+import '../CSS/NavBar.modules.css'
 const NavBar = () => {
     return ( 
-        <ul>
+        <ul id="wrapper">
             <li> Array Sort </li>
             <li> Graph Traversal </li>
             <li> More Info </li>
