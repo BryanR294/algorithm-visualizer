@@ -1,0 +1,17 @@
+:root{
+    --blue: #2077B4;
+    --black: #2F0601;
+    --white: #FEFEFE;
+    --lightblue: #788AA3;
+    --eggplant: #553A41;
+    --yellow: #FFB100;
+    --lightgray: rgb(242, 242, 242);
+    --gray: #CCCCCC;
+
+}
+
+body{
+    margin: 0;
+    padding: 0;
+}
+

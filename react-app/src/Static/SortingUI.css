@@ -1,0 +1,29 @@
+#app-container{
+    display: flex;
+    height: 80%;
+    width: 100%;
+}
+#ui-wrapper{
+    width: 80%;
+    display: inline-block;
+}
+
+img{
+   width: 70%;
+   margin: 5% 15%; 
+}
+
+.slider-ui{
+
+}
+
+.button-ui button{
+    background: var(--lightblue);
+    width: 48%;
+    margin: 1%;
+    border: 2px solid var(--blue);
+}
+
+.stop-button{
+    width: 98% !important;
+}

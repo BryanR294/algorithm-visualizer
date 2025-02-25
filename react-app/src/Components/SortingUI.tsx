@@ -170,19 +170,19 @@ const SortingUI: React.FC  = () => {
       <SortingInfo/>
       <div id="ui-wrapper">
         <title> Algorithm Visualizer</title>
-        <div>
+        <div className="slider-ui">
           <label className="text" htmlFor="array-size"> Array Size: </label>
-          <input className="hide-while-sorting" type="range" name="array-size" min="5" max="50" step="1" defaultValue={arraySize} onChange={handleArraySize}/>
+          <input className="slider hide-while-sorting" type="range" name="array-size" min="5" max="50" step="1" defaultValue={arraySize} onChange={handleArraySize}/>
           <label className="text" htmlFor="array-size"> {arraySize} </label>
           <label className="text" htmlFor="sorting-speed"> Sorting Speed</label> 
-          <input className="hide-while-sorting" type="range" name="sorting-speed" min="250" max="1000" step="250" defaultValue={sortingSpeed} onChange={handleSortingSpeed}/> 
+          <input className="slider hide-while-sorting" type="range" name="sorting-speed" min="250" max="1000" step="250" defaultValue={sortingSpeed} onChange={handleSortingSpeed}/> 
           <label className="text" htmlFor="sorting-speed"> {sortingSpeed/1000}</label> 
         </div>
         <img src={graph} alt="Graph Visualization"/>
-        <div>
+        <div className="button-ui">
           <button className="text hide-while-sorting" onClick={randomizeList}> Generate List </button>
           <button className="text hide-while-sorting" onClick={selectionSort}> Selection Sort </button>
-          <button id="stop-sort" onClick={() => isSortingRef.current = false}> Stop Sort</button>
+          <button className="text stop-button" id="stop-sort" onClick={() => isSortingRef.current = false}> Stop Sort</button>
         </div>
       </div>
     </div>
