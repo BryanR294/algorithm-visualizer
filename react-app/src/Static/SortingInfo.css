@@ -1,34 +1,32 @@
  #SortingInfo-container{
-    /* background: var(--gray); */
-    background: lightgray;
+    background: var(--lightgray);
     width: 20%; 
     display: flex;
 }
 #SortingInfo-ul{
-    margin: 25% 0%;
     padding: 0;
+    margin: 0;
     width: 67%;
-    display: grid;
-    align-items: center;
-    justify-items: center;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr;
+    display: flex;
+    flex-direction: column;
 }
 #SortingInfo-ul li{
     margin: 0px;
     width: 100%;
     display: block;
     padding: 15px 0;
-    border-top: 2px solid rgb(94, 94, 94);
-    border-bottom: 2px solid rgb(94, 94, 94)    ;
+    border-bottom: 3px solid var(--gray);    ;
 }
 #SortingInfo-ul li button{
     border: none;
-    font-size: 28px;
+    font-size: 18px;
     background: rgba(0,0,0,0);
 }
 
 button#reveal-button{
-    /* background: #85C19E; */
+    background: var(--green);
+    height: 100%;
     width: 33%;
+    border-top: none;
+    font-size: 24px;
 }
