@@ -6,19 +6,15 @@
 #ui-wrapper{
     width: 80%;
     display: inline-block;
+    padding: 15px 25px;
 }
 
 img{
-   width: 70%;
-   margin: 0% 15%; 
+    max-width: 70%;
+        margin: 0% 15%;
 }
 
-.slider-ui{
-
-}
-
-.button-ui button{
-    background: var(--lightblue);
+.button-ui button {
     width: 48%;
     margin: 1%;
     border: 2px solid var(--blue);

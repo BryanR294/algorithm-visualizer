@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef} from 'react'
 import React from 'react'
 import { sleep } from 'sleep-ts'
-import SortingInfo from './SortingInfo'
 import '../Static/SortingUI.css'
 import { Stopwatch } from "ts-stopwatch";
 
@@ -35,11 +34,11 @@ const SortingUI: React.FC  = () => {
   //Re-renders, and logs elapsed time of sorting function
   const endSort = () => {
     isSortingRef.current = false;
-    console.log(`Elapsed time: ${stopwatch.getTime()}ms`);
+    console.log(`Elapsed time: ${stopwatch.getTime()}ms ${stopwatch.getTime()/100}s`);
     setSortDuration(stopwatch.getTime());
   }
 
-  //forces program to wait for backend
+  // Forces program to wait for backend
   const communicateWithBackend = async () => {
     await sendArrayToBackend(listRef.current);
     await fetchGraph();
@@ -72,6 +71,8 @@ const SortingUI: React.FC  = () => {
         console.error("Error fetching data:", error);
       }
   };
+
+  // Sends current index and pivot index to the backend
   const updateBackendColors = async (currIndex: number, examinedIndex: number) => { 
     try {
       const response = await fetch("http://127.0.0.1:5000/api/array/colored-graph",{
@@ -91,6 +92,8 @@ const SortingUI: React.FC  = () => {
       console.error("Error fetching data:", error);
     }
   }
+
+  //returns a graph with the current index and pivot index as different colors
   const fetchColoredGraph = async () => {
     try {
       const response = await fetch("http://127.0.0.1:5000/api/array/colored-graph");
@@ -125,7 +128,7 @@ const SortingUI: React.FC  = () => {
     }
   };
   
-  //most basic and intuitive sorting, O(n^2)
+  //most basic and intuitive sorting, O(n^2)z
   const selectionSort = async () => {
     stopwatch.start(true);
     isSortingRef.current = true;
@@ -134,11 +137,15 @@ const SortingUI: React.FC  = () => {
     for(let i = 0; i < arraySize; i++){  
       if(isSortingRef.current != true){
         console.log("Sort terminated early");
-        return
+        break;
       }
 
       let currentMinimum: number = sortedList[i];
       for(let j = i+1; j < arraySize; j++){
+        if(isSortingRef.current != true){
+          console.log("Sort terminated early");
+          break;
+        }
         await sendArrayToBackend(listRef.current);
         await updateBackendColors(i,j)
         await fetchColoredGraph();
@@ -189,7 +196,7 @@ const SortingUI: React.FC  = () => {
 
   return (
     <div id="app-container">
-      <SortingInfo/>
+      {/* <SortingInfo/> */}
       <div id="ui-wrapper">
         <title> Algorithm Visualizer</title>
         <div className="slider-ui">
@@ -199,7 +206,7 @@ const SortingUI: React.FC  = () => {
           <label className="bold text" htmlFor="sorting-speed"> Sorting Speed</label> 
           <input className="slider hide-while-sorting" type="range" name="sorting-speed" min="250" max="1000" step="250" defaultValue={sortingSpeed} onChange={handleSortingSpeed}/> 
           <label className="bold text" htmlFor="sorting-speed"> {sortingSpeed/1000}</label>
-          <p className="duration-text"> Sort Duration: {sortDuration}ms</p> 
+          <p className="duration-text"> Sort Duration: {sortDuration}ms ({sortDuration/1000}s)</p> 
         </div>
         <img src={graph} alt="Graph Visualization"/>
         <div className="button-ui">

@@ -1,10 +1,8 @@
 import '../Static/App.css'
-import NavBar from './NavBar'
-import SortingUI from './SortingUI'
+import SortingUI from './SortingUI.tsx'
 function App() {
   return(
     <div>
-      <NavBar/>
       <SortingUI/>
     </div>
   )
