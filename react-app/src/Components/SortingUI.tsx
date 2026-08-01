@@ -7,13 +7,10 @@ import { Stopwatch } from "ts-stopwatch";
 const SortingUI: React.FC  = () => {
   const [arraySize, setArraySize] = useState<number>(25);
   const [sortingSpeed, setSortingSpeed] = useState<number>(500);
-  //Isn't actually represented on screen, worth replacing with useRef
-  // const [list, setList] = useState<number[]>([1,2,3,4,5]);
   const listRef = useRef<number[]>([1,2,3,4,5]);
   //Graph represented as an encoded string 
   const [graph, setGraph] = useState<string | undefined>(undefined);
   const isSortingRef = useRef<boolean>(false);
-  const isColoredRef = useRef<boolean>(false);
   const stopwatch: Stopwatch = new Stopwatch();
   const [sortDuration, setSortDuration] = useState<number>(stopwatch.getTime());
 
@@ -196,7 +193,6 @@ const SortingUI: React.FC  = () => {
 
   return (
     <div id="app-container">
-      {/* <SortingInfo/> */}
       <div id="ui-wrapper">
         <title> Algorithm Visualizer</title>
         <div className="slider-ui">
