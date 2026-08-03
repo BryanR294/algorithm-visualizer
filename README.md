@@ -22,7 +22,8 @@ Using the website should be pretty self-explanatory:
 - You can sort the array using the "selection sort" button.
 
 <img width="555" height="404" alt="Animation" src="https://github.com/user-attachments/assets/517e0911-91da-4b01-a1e2-0f5ac12e2f0f" />
-_animation of graph sorting_
+
+*animation of graph sorting*
 
 ## Features
 - Anytime a change is made to the array (whether it's updating its size, creating a new array, or sorting the array) the program will automatically update its visual to reflect your changes. In other words, the array
