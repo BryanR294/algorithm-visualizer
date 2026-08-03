@@ -1,4 +1,4 @@
-<img width="1548" height="621" alt="image" src="https://github.com/user-attachments/assets/432e1526-4fb5-439f-b2c2-7ef2eae91f9b" /># Algorithm Visualizer Project
+# Algorithm Visualizer Project
 This project was created as both a self-guided learning experience and an educational teaching opportunity. 
 
 I initially thought this README would be short and brief, but as I retell my learning experiences I realize that detailing my work will help others better understand my code and the decisions I've made.
