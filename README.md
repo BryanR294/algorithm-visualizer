@@ -34,21 +34,14 @@ will always be in sync with the visual no matter what.
 ## Architecture
 This project uses a React + TypeScript front-end with a Python backend. In terms of data flow the project follows this process:
 
-Frontend handles user input that may affect array 
- ↓
-Array update is detected 
- ↓
-Array is sent to backend, along with any pivots 
- ↓
-Backend receives array 
- ↓
-Backend creates a visual based on array and its pivots
- ↓
-Visual is encoded as JSON data 
- ↓
-JSON is sent to frontend to be decoded 
- ↓
-Frontend displays visual based on decoded backend JSON. 
+1. Frontend handles user input that may affect array 
+2. Array update is detected 
+3. Array is sent to backend, along with any pivots 
+4. Backend receives array 
+5. Backend creates a visual based on array and its pivots
+6. Visual is encoded as JSON data 
+7. JSON is sent to frontend to be decoded 
+8. Frontend displays visual based on decoded backend JSON. 
 
 It feels simple to look at the data flow now, but when I first started the project I had zero idea how to implement _any_ of these steps. Besides knowing the basics of Javascript and Python, everything utilized in this 
 project was learned on-the-go. I wanted to share my experiences and takeaways as I learned how each library worked. 
@@ -84,11 +77,15 @@ of how React works and it allowed me to write code that avoided bugs.
 - Not all hooks are ran sync
 
 ### Backend
-The main takeaways I learned from working with a Python backend was setting up a server, handling POST requests and JSON, exposure to libraries like CORS, Flask, Seaborn and Matplotlib.
-In high school I learned about endpoints, APIs and fetch-requests. This was an opportunity to show what I learned about backend development and also share my data visualization skills.
+I was already familiar with the basics of Python. What I instead learned was backend development as a practice: sure, I could understand Python syntax, but does that mean I know how to set up a server that communicates with a frontend through endpoints? This includes learning to set up a server using CORS, handling POST requests and JSON whilst gaining exposure to libraries like Flask, Seaborn and Matplotlib.
 
-The project's backend is handled with Python. I wanted to use Python specifically because I knew it was the go-to for data. All the visual in this project are generated using __Matplotlib__. 
-I already had experience with Python before so the main challenge was understanding how to use Python as a backend in combination with my React front-end. This was my first-time using endpoints in Python 
-and also led me to discover libraries such as __Concurrently__, which allowed my backend server and frontend simultaneously. 
+The reason I choose Python specifically is because I knew it was the go-to for data. All the visual in this project are generated using __Matplotlib__. This exposed me to the world of data visualization using Python libraries like Matplotlib and Seaborn. 
 
-I had to learn how to set up a Python server using CORs.
+I also learned about API endpoints and how I could use that to my advantage to send data. One challenge I faced is that APIs use JSON to transfer images. Since the purpose of the project was to send images to the front-end, I had to learn to convert image data to JSON and then back into an image in the end. I also had to learn to make two different endpoints to distinguish between the initial colorless graph made for every fresh array versus the colored graph you get when you begin to sort data.
+
+I learned a lot about full stack development as a whole from Python. 
+
+## Takeaway
+This is an ideal project if you want to learn the basics of React and full stack development. It's also an ideal learning tool that can teach students sorting algorithms like Selection Sort. This project took me a while to work on between college and work so I decided not to include other sorting algorithms and kept this as a simple proof of concept. I'm eager to start a new project where I can instead focus on statistics in coding.  
+
+Thank you for reading and enjoy my website.
