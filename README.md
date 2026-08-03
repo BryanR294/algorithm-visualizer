@@ -1,4 +1,4 @@
-# Algorithm Visualizer Project
+<img width="1548" height="621" alt="image" src="https://github.com/user-attachments/assets/432e1526-4fb5-439f-b2c2-7ef2eae91f9b" /># Algorithm Visualizer Project
 This project was created as both a self-guided learning experience and an educational teaching opportunity. 
 
 I initially thought this README would be short and brief, but as I retell my learning experiences I realize that detailing my work will help others better understand my code and the decisions I've made.
@@ -11,6 +11,9 @@ I'll go over:
 
 ## How to Use
 When you open the website a random array will already be generated and visualized on screen. 
+
+<img width="1548" height="621" alt="image" src="https://github.com/user-attachments/assets/1a70ae16-c4a4-4e3b-ad5a-349066f8075d" />
+
 
 Using the website should be pretty self-explanatory: 
 - You can randomly generate a new array using "generate list" button.
