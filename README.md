@@ -87,6 +87,7 @@ I learned a lot about full stack development as a whole from Python.
 ## Takeaway
 This project was initially a "learn React" project but it became so much more. I learned full-stack communication with a working CORS Python backend server built to communicate wtih a React + Typescript front-end. I learned the basics of APIs, endpoints, JSON and how to encode images for data transfer. I learned how to create meaningful visualizations from real-user input. I learned fundamental React skills such as hooks and components, along with its syntax. Before this project, I would only need 3 files: index.html, styles.css, index.js. 
 Now I've learned to not become underwhelm by Visual Studios when looking at my file hierarchy.
+
 <img width="172" height="665" alt="image" src="https://github.com/user-attachments/assets/7df6e0d2-1e10-4214-bf47-13d80dd616d1" />
 
 This project took me a long time to complete as I would have to find free-time to work on it between school and work, though I cannot undersell what I've gained from this experience. For now, this project will be kept as a proof of concept rather than a complete, all-encompassing educational tool as there are now other projects and endeavors I wish to pursue instead. I hope to one day return to this project and expand on the vision I once had.
