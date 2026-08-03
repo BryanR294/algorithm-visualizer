@@ -74,7 +74,6 @@ Because I was learning React from scratch, I had to learn how React handles re-r
 the way I wanted it too. That's when I learned the caveats of different React hooks. For example, some React hooks like __useState__ are asynchronous, which would cause problems by displaying old information
 because the hook hadn't finished executing. Also I learned that re-rendering caused from hooks was a separate, asynch, action. Understanding small things like this really gave me an intimate understanding
 of how React works and it allowed me to write code that avoided bugs.
-- Not all hooks are ran sync
 
 ### Backend
 I was already familiar with the basics of Python. What I instead learned was backend development as a practice: sure, I could understand Python syntax, but does that mean I know how to set up a server that communicates with a frontend through endpoints? This includes learning to set up a server using CORS, handling POST requests and JSON whilst gaining exposure to libraries like Flask, Seaborn and Matplotlib.
