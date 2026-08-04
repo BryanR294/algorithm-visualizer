@@ -3,12 +3,13 @@ from flask_cors import CORS
 import seaborn as sns
 import numpy as np
 import matplotlib
+
+matplotlib.use('Agg')
+
 import matplotlib.pyplot as plt
 import base64
 import io
 import logging
-
-matplotlib.use('Agg')
 
 # Flask and CORS set-up
 array = [1,2,3,4,5]
@@ -18,8 +19,14 @@ colors = np.full(len(array),"#1f77b4")
 logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "*"}})  # This enables CORS for all routes (make sure to configure it for production!)
-
+CORS(app, resources={
+    r"/api/*": {
+        "origins": [
+            "http://localhost:5173",
+            "https://https://algorithm-visualizer-1xm6.vercel.app/"
+        ]
+    }
+})
 @app.route('/api/array/colored-graph',methods=['POST'])
 def update_colors():
     global colors
@@ -46,7 +53,7 @@ def return_colored_graph():
     fig.savefig(buf,format="png")
     buf.seek(0)
     encoded_image = base64.b64encode(buf.read()).decode('utf-8')
-    plt.close(fig)
+    plt.close('all')
     
     # logging.info("GET request received, sending graph data")
     return jsonify({"image": encoded_image})
@@ -67,7 +74,7 @@ def return_graph():
     fig.savefig(buf,format="png")
     buf.seek(0)
     encoded_image = base64.b64encode(buf.read()).decode('utf-8')
-    plt.close(fig)
+    plt.close('all')
     
     # logging.info("GET request received, sending graph data")
     return jsonify({"image": encoded_image})
