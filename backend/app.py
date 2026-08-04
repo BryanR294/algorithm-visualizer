@@ -18,7 +18,7 @@ colors = np.full(len(array),"#1f77b4")
 logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
-CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}})  # This enables CORS for all routes (make sure to configure it for production!)
+CORS(app, resources={r"/api/*": {"origins": "*"}})  # This enables CORS for all routes (make sure to configure it for production!)
 
 @app.route('/api/array/colored-graph',methods=['POST'])
 def update_colors():
