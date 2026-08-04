@@ -4,11 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\"",
+    "frontend": "vite",
+    "backend": "cd ../backend && python app.py",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "start": "concurrently \"npm run dev\" \"cd backend && python app.py\""
+    "preview": "vite preview"
   },
   "dependencies": {
     "algorithm-visualizer": "file:",
