@@ -55,7 +55,7 @@ const SortingUI: React.FC  = () => {
   //Python backend communication
   const fetchGraph = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/api/array/graph");
+        const response = await fetch("https://algorithm-visualizer-backend-x656.onrender.com/api/array/graph");
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
         }
@@ -72,7 +72,7 @@ const SortingUI: React.FC  = () => {
   // Sends current index and pivot index to the backend
   const updateBackendColors = async (currIndex: number, examinedIndex: number) => { 
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/array/colored-graph",{
+      const response = await fetch("https://algorithm-visualizer-backend-x656.onrender.com/api/array/colored-graph",{
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -93,7 +93,7 @@ const SortingUI: React.FC  = () => {
   //returns a graph with the current index and pivot index as different colors
   const fetchColoredGraph = async () => {
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/array/colored-graph");
+      const response = await fetch("https://algorithm-visualizer-backend-x656.onrender.com/api/array/colored-graph");
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -110,7 +110,7 @@ const SortingUI: React.FC  = () => {
   const sendArrayToBackend = async (array: number[]) => {
     console.log("sending array to backend...")
     try {
-      const response = await fetch("http://127.0.0.1:5000/api/array", {
+      const response = await fetch("https://algorithm-visualizer-backend-x656.onrender.com/api/array", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
