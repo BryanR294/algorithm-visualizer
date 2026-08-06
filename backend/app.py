@@ -23,7 +23,7 @@ CORS(app, resources={
     r"/api/*": {
         "origins": [
             "http://localhost:5173",
-            "https://https://algorithm-visualizer-1xm6.vercel.app/"
+            "https://algorithm-visualizer-1xm6.vercel.app"
         ]
     }
 })
